@@ -1,0 +1,88 @@
+﻿@model IEnumerable<ASPMVC_Mohammad_Haj_yousef.Models.employee.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfileImage)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            @{
+                var avgAge = Model.Average(i => i.Age);
+                if (avgAge > item.Age)
+                {
+                    <td class="text-success">
+                        @Html.DisplayFor(modelItem => item.Age)
+                    </td>
+                }
+                else
+                {
+                    <td class="text-danger">
+                        @Html.DisplayFor(modelItem => item.Age)
+                    </td>
+                }
+            }
+            @{
+                var avgSalry = Model.Average(i => i.Salary);
+                if (avgSalry > item.Salary)
+                {
+                        <td class="text-success">
+                            @Html.DisplayFor(modelItem => item.Salary)
+                        </td>
+                }
+                else
+                {
+                        <td class="text-danger">
+                           @Html.DisplayFor(modelItem => item.Salary)
+                        </td>
+                }
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfileImage)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+    <tfoot>
+        <tr class="text-primary">
+            <td >AvgAge</td>
+            <td>@Model.Average(i => i.Age)</td>
+        </tr>
+        <tr class="text-primary">
+            <td >AvgSalary</td>
+            <td>@Model.Average(i => i.Salary).ToString("0.00")</td>
+        </tr>
+    </tfoot>
+</table>
